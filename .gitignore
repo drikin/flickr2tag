@@ -34,3 +34,6 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+/sunzi/recipes/private.sh
+.DS_Store
