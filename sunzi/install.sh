@@ -17,7 +17,7 @@ sunzi.mute "apt-get update"
 sunzi.mute "apt-get -y upgrade"
 
 # Install packages
-apt-get -y install git-core ntp curl
+apt-get -y install git-core ntp curl python nginx
 
 # Install sysstat, then configure if this is a new install.
 if sunzi.install "sysstat"; then
@@ -48,3 +48,6 @@ if [[ "$(which ruby)" != /usr/local/rvm/rubies/ruby-$ruby_version* ]]; then
   # Install Bundler
   gem install bundler
 fi
+
+/etc/init.d/nginx restart
+
