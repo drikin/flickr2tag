@@ -3,10 +3,20 @@ set -e
 
 # Load base utility functions like sunzi.mute() and sunzi.install()
 source recipes/sunzi.sh
+source recipes/private.sh
 
 # This line is necessary for automated provisioning for Debian/Ubuntu.
 # Remove if you're not on Debian/Ubuntu.
 export DEBIAN_FRONTEND=noninteractive
+
+echo "xxxxxxxxxxxxxxxxxxxx"
+if [ -z "$FLICKR_API" ]; then
+    echo "FLICKR_API wsa missing"
+    exit
+else
+    echo "FLICKR_API=$FLICKR_API"
+fi
+echo "xxxxxxxxxxxxxxxxxxxx"
 
 # Add Dotdeb repository. Recommended if you're using Debian. See http://www.dotdeb.org/about/
 # source recipes/dotdeb.sh
@@ -17,7 +27,7 @@ sunzi.mute "apt-get update"
 sunzi.mute "apt-get -y upgrade"
 
 # Install packages
-apt-get -y install git-core ntp curl python nginx
+apt-get -y install git-core ntp curl python python-tornado nginx
 
 # Install sysstat, then configure if this is a new install.
 if sunzi.install "sysstat"; then
@@ -34,6 +44,12 @@ if ! grep -Fq "RAILS_ENV" ~/.bash_profile; then
   source ~/.bash_profile
 fi
 
+if ! grep -Fq "FLICKR_API" ~/.bash_profile; then
+  echo 'Setting up FLICKR_API...'
+  echo "export FLICKR_API=$FLICKR_API" >> ~/.bash_profile
+  source ~/.bash_profile
+fi
+
 # Install Ruby using RVM
 source recipes/rvm.sh
 ruby_version=<%= @attributes.ruby_version %>
@@ -47,6 +63,20 @@ if [[ "$(which ruby)" != /usr/local/rvm/rubies/ruby-$ruby_version* ]]; then
 
   # Install Bundler
   gem install bundler
+fi
+
+# Custom script from here
+REPO_NAME='flickr2tag'
+REPO_URL='https://github.com/drikin/'${REPO_NAME}'.git'
+if [ ! -e ~/git ]; then
+  echo 'Create git dir'
+  mkdir ~/git; cd ~/git;
+  git clone ${REPO_URL}
+  chmod 711 /root
+else
+  echo 'Update git dir'
+  cd ~/git/${REPO_NAME};
+  git pull
 fi
 
 /etc/init.d/nginx restart
