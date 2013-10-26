@@ -27,7 +27,7 @@ sunzi.mute "apt-get update"
 sunzi.mute "apt-get -y upgrade"
 
 # Install packages
-apt-get -y install git-core ntp curl python python-tornado python-simplejson python-flickrapi nginx
+apt-get -y install git-core ntp curl python python-tornado python-simplejson python-flickrapi nginx supervisor
 
 # Install sysstat, then configure if this is a new install.
 if sunzi.install "sysstat"; then
@@ -77,6 +77,26 @@ else
   echo 'Update git dir'
   cd ~/git/${REPO_NAME};
   git pull
+fi
+
+echo 'Setup supervisor'
+cp /root/git/flickr2tag/conf/supervisor.conf /etc/supervisor/conf.d/
+/usr/bin/pkill supervisord
+/usr/bin/supervisord
+
+if sunzi.install "nginx"; then
+    echo "Remove nginx default config"
+    rm /etc/nginx/sites-enabled/default
+    mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf_org
+fi
+
+if [ ! -e /etc/nginx/nginx.conf ]; then
+  echo 'Enable sites'
+  ln -Fs ~/git/flickr2tag/conf/nginx/nginx.conf /etc/nginx/nginx.conf
+fi
+
+if [ ! -e /etc/nginx/sites-enabled/flickr2tag.conf ]; then
+  ln -Fs ~/git/flickr2tag/conf/nginx/sites-available/flickr2tag.conf /etc/nginx/sites-enabled/flickr2tag.conf
 fi
 
 /etc/init.d/nginx restart
