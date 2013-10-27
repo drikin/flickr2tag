@@ -37,9 +37,11 @@
 	      var page = 1;
           var p_size = 'Medium'
 	      var loading = true;
-				var scrolling = false;
+          var scrolling = false;
 	      var clip = new ZeroClipboard.Client();
 	      clip.setHandCursor(true);
+
+          var isTop = true;
 
 	      var copy = new ZeroClipboard.Client();
 	      var tags = [];
@@ -84,7 +86,7 @@
 	        }
 	      }
 
-          function　search(query, page) {
+          function search(query, page) {
             var vars = getUrlVars();
 
 	        hideIntro();
@@ -178,6 +180,10 @@
 	          page += 1;
 	          search(query, page);
 	        }
+            if (isTop) {
+                $('#goto-top').css('opacity', '1');
+                isTop = false;
+            }
 	      });
 
 	      if ($.browser.msie) {
@@ -210,7 +216,10 @@
 
 	      $('#goto-top').click(function () {
 	        $(this).blur();
-	        $('html,body').animate({ scrollTop: 0 }, 'slow');
+            $('html,body').animate({ scrollTop: 0 }, 'slow', function() {
+                $('#goto-top').css('opacity', '0');
+                setTimeout(function() {isTop=true;}, 100);
+            });
 	        return false;
 	      });
 
@@ -344,7 +353,7 @@
         <!--span id="intro"><img src="/static/img/intro.png"></span-->
         <span id="photos"></span>
         <p id="scroll">Stop</p>
-        <p id="goto-top"><a href="#top">↑ Go to Top</a></p>
+        <p id="goto-top"><a href="#top"><img src='/static/img/gototop.gif'></a></p>
       </div>
       <!-- end content -->
 
