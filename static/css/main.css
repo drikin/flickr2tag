@@ -6,7 +6,7 @@ div {
 }
 
 body {
-	font-family: sans-serif;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 	margin: 0px;
 	padding: 0px;
 }
@@ -35,7 +35,7 @@ a {
 }
 
 #background {
-	background-color: #e8e8e8;
+	background-color: white;
 	top: 0px;
 	left: 0px;
 	position: fixed;
@@ -48,19 +48,9 @@ a {
 
 #container {
 	padding-top: 5px;
-	border-left-width: 1px;
-	border-bottom-width: 1px;
-	border-right-width: 1px;
-	border-top-width: 0px;
-	border-color: white;
-	border-style: ridge;
 	width: 95%;
-	background: white;
 	margin-left: auto;
 	margin-right: auto;
-	-webkit-box-shadow: 2px 2px 5px gray;
-	-webkit-border-bottom-right-radius: 3px;
-	-webkit-border-bottom-left-radius: 3px;
 }
 
 #header {
@@ -68,14 +58,8 @@ a {
 	margin-top: 0.5em;
 	margin-left: 3%;
 	margin-right: 3%;
-	border-left-width: 0px;
-	border-bottom-width: 2px;
-	border-right-width: 0px;
-	border-top-width: 0px;
-	border-style: ridge;
-	font-family: sans-serif;
-	font-weight: bold;
 	font-size: 2.5em;
+	text-align: center;
 }
 
 #content {
@@ -130,7 +114,6 @@ a {
 }
 
 #search {
-	margin-top: 1em;
 	padding-right: 1em;
 	padding-left: 1em;
 	padding-bottom: 0.4em;
@@ -197,10 +180,9 @@ a {
 
 .description {
 	color: #4c4c4c;
-	font-style: normal;
-	font-weight: normal;
-	text-decoration: none;
-	font-size: 0.5em;
+	font-size: 0.4em;
+	position: relative;
+	top: -1em;
 }
 
 .flickr-blue {
@@ -212,6 +194,7 @@ a {
 }
 
 .flickr-title {
+    display: none;
 	margin: 0px;
 	padding: 0px;
 	top: -3em;
@@ -271,4 +254,9 @@ a {
     display: block;
     margin: 10px auto 0 auto;
     width: 728px;
+}
+
+.version {
+	color: #4c4c4c;
+	font-size: 0.5em;
 }
