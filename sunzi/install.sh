@@ -27,7 +27,7 @@ sunzi.mute "apt-get update"
 sunzi.mute "apt-get -y upgrade"
 
 # Install packages
-apt-get -y install git-core ntp curl python python-tornado nginx
+apt-get -y install git-core ntp curl python python-tornado python-simplejson python-flickrapi nginx
 
 # Install sysstat, then configure if this is a new install.
 if sunzi.install "sysstat"; then
