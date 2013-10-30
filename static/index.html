@@ -33,60 +33,59 @@
 
                 var enableMarkDown = true;
 
-	      ZeroClipboard.setMoviePath('/static/swf/ZeroClipboard.swf');
+                ZeroClipboard.setMoviePath('/static/swf/ZeroClipboard.swf');
 
-	      var query = "";
-	      var photoset_id = "";
-	      var page = 1;
-          var p_size = 'Medium'
-	      var loading = true;
-          var scrolling = false;
-	      var clip = new ZeroClipboard.Client();
-	      clip.setHandCursor(true);
+                var query = "";
+                var photoset_id = "";
+                var page = 1;
+                var p_size = 'Medium'
+                var loading = true;
+                var scrolling = false;
+                var clip = new ZeroClipboard.Client();
+                clip.setHandCursor(true);
 
-          var isTop = true;
+                var isTop = true;
 
-	      var tags = [];
+                var tags = [];
 
-	      function hideIntro() {
-	        $('#intro').fadeOut('normal');
-	      }
+                function hideIntro() {
+                    $('#intro').fadeOut('normal');
+                }
 
-	      function getUrlVars()
-	      {
-	        var vars = [], hash;
-	        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-	        for(var i = 0; i < hashes.length; i++) {
-	          hash = hashes[i].split('=');
-	          vars.push(hash[0]);
-	          vars[hash[0]] = hash[1];
-	        }
-	        return vars;
-	      }
+                function getUrlVars() {
+                    var vars = [], hash;
+                    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                    for(var i = 0; i < hashes.length; i++) {
+                        hash = hashes[i].split('=');
+                        vars.push(hash[0]);
+                        vars[hash[0]] = hash[1];
+                    }
+                    return vars;
+                }
 
-	      function pageScroll(s) {
-					scrolling = true;
-		      if (s==undefined) {
-	          s = 2;
-	        }
-	        window.scrollBy(0, s);
-	        scrolldelay = setTimeout('pageScroll(' + s + ')', 1);
-	      }
+                function pageScroll(s) {
+                    scrolling = true;
+                    if (s==undefined) {
+                        s = 2;
+                    }
+                    window.scrollBy(0, s);
+                    scrolldelay = setTimeout('pageScroll(' + s + ')', 1);
+                }
 
-	      function stopScroll() {
-					scrolling = false;
-	        clearTimeout(scrolldelay);
-	      }
+                function stopScroll() {
+                    scrolling = false;
+                    clearTimeout(scrolldelay);
+                }
 
-	      function doSearch() {
-	        if ($('#query').val()) {
-	          query = $('#query').val();
-	          window.location.href = "/?query=" + encodeURI(query);
-	        }
-	      }
+                function doSearch() {
+                    if ($('#query').val()) {
+                        query = $('#query').val();
+                        window.location.href = "/?query=" + encodeURI(query);
+                    }
+                }
 
           function search(query, page) {
-            var vars = getUrlVars();
+                var vars = getUrlVars();
 
 	        hideIntro();
 	        startLoading();
@@ -124,7 +123,7 @@
 								if (!enableFlash) {
                                     if (!enableMarkDown) {
                                         d.append($('<textarea/>')
-                                            .text("<a href='http://www.flickr.com/photo.gne?id=" + photo.id + "' title='" + photo.title +　"'><img src='" + photo.source + "' alt='" + photo.title + " description='" + photo.description +"'></a>\n"));
+                                            .text("<a href='http://www.flickr.com/photo.gne?id=" + photo.id + "' title='" + photo.title + "'><img src='" + photo.source + "' alt='" + photo.title + " description='" + photo.description +"'></a>\n"));
                                     } else {
                                         d.append($('<textarea/>')
 	                                        .attr("id", "textarea_" + photo.id)
@@ -251,54 +250,48 @@
 	      })
 
 	      $(document).ready(function() {
-	        $('#query').formtips({
-	          tippedClass: 'tipped'
-	        });
-            var vars = getUrlVars();
-            /*
-					if (vars['size'] == 's') {
-						p_size = 'Square';
-						$('#photos').css('width', '140px');
-					}
-					if (vars['size'] == 't') {
-						p_size = 'Thumbnail';
-						$('#photos').css('width', '200px');
-                    }
-					if (vars['size'] == 'm') {
-						p_size = 'Small';
-						$('#photos').css('width', '300px');
-                    }
-                    if (vars['size'] == 'z') {
-                        p_size = "Medium 640";
-                        $('#photos').css('width', '700px');
-                    }
-                    if (vars['size'] == 'c') {
-                        p_size = "Medium 800";
-                        $('#photos').css('width', '860px');
-                    }
-					if (vars['size'] == 'l') {
-						p_size = 'Large';
-						$('#photos').css('width', '1200px');
-					}
-                    */
-            query = vars['query'];
-            photoset_id = vars['photoset_id'];
-	        if (query) {
-	          query = decodeURI(query);
-	          $('title').text(query + ' - Flickr2Tag');
-	          search(query);
-	        }
-	        if (vars['scrl']) {
-	          var s = vars['scrl'];
-						$('#scroll').show();
-	          pageScroll(s);
-	        }
-					if (vars['bg']) {
-						var bg = vars['bg'];
-						$('#container').css('background', bg);
-					}
+                $('#query').formtips({
+                    tippedClass: 'tipped'
+                });
+
+                var vars = getUrlVars();
+                if (vars['size'] == 's') {
+                    p_size = 'Square';
+                    //$('#photos').css('width', '140px');
+                } if (vars['size'] == 't') {
+                    p_size = 'Thumbnail';
+                    //$('#photos').css('width', '200px');
+                } if (vars['size'] == 'm') {
+                    p_size = 'Small';
+                    //$('#photos').css('width', '300px');
+                } if (vars['size'] == 'z') {
+                    p_size = "Medium 640";
+                    //$('#photos').css('width', '700px');
+                } if (vars['size'] == 'c') {
+                    p_size = "Medium 800";
+                    //$('#photos').css('width', '860px');
+                } if (vars['size'] == 'l') {
+                    p_size = 'Large';
+                    //$('#photos').css('width', '1200px');
+                }
+                query = vars['query'];
+                photoset_id = vars['photoset_id'];
+                if (query) {
+                    query = decodeURI(query);
+                    $('title').text(query + ' - Flickr2Tag');
+                    search(query);
+                }
+                if (vars['scrl']) {
+                    var s = vars['scrl'];
+                    $('#scroll').show();
+                    pageScroll(s);
+                }
+                if (vars['bg']) {
+                    var bg = vars['bg'];
+                    $('#container').css('background', bg);
+                }
 	      });
-			}
+		}
     </script>
     <!-- END main script -->
   </head>
