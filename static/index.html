@@ -137,13 +137,15 @@
 								}
 
                 function selectText(e) {
-                    console.log(e);
-                    var t = e.currentTarget;
-                    //t.focus();
+                    var t = e.target;
+                    t.focus();
                     t.oncopy = function() {
-                        t.blur();
+                        // Workaround for copy timing issue
+                        setTimeout(function() {t.blur()}, 1);
                     }
-                    setTimeout(function() {t.setSelectionRange(0, t.value.length);}, 1);
+                    setTimeout(function() {
+                        t.setSelectionRange(0, t.value.length);
+                    }, 50);
                 }
 
                 d.appendTo('#photos');
