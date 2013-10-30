@@ -6,7 +6,8 @@
     <title>Flickr2Tag version2</title>
     <link href="/static/css/main.css" media="screen" rel="stylesheet" type="text/css" />
 		<script src="http://drik.in/dkapi"></script>
-        <!-- script src='http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js'></script -->
+        <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js'></script>
+        <script src='/static/js/jquery.formtips.1.2.packed.js'></script>
 		<!-- BEGIN main script -->
 		<script type="text/javascript" charset="utf-8">
             // set Max image width
@@ -15,25 +16,15 @@
 			drikin.debug(false);
 			drikin.load('debug');
 			var log = drikin.debug.log;
-			drikin.load('jquery');
-			drikin.load('/static/js/jquery.formtips.1.2.packed.js');
-			drikin.load('swfobject');
-			drikin.load('/static/js/ZeroClipboard.js', init);
+			//drikin.load('jquery');
+			//drikin.load('/static/js/jquery.formtips.1.2.packed.js');
+			//drikin.load('swfobject');
+			//drikin.load('/static/js/ZeroClipboard.js', init);
+            //drikin.setOnLoadCallback(init);
 
 			function init() {
 				var enableFlash = false;
-				if (swfobject.hasFlashPlayerVersion("10.0.0")) {
-			 		log('flash enabled');
-					enableFlash = true;
-			 	} else {
-			 		log('flash disabled');
-					enableFlash = false;
-			 	}
-				enableFlash = false;
-
                 var enableMarkDown = true;
-
-                ZeroClipboard.setMoviePath('/static/swf/ZeroClipboard.swf');
 
                 var query = "";
                 var photoset_id = "";
@@ -41,8 +32,6 @@
                 var p_size = 'Medium'
                 var loading = true;
                 var scrolling = false;
-                var clip = new ZeroClipboard.Client();
-                clip.setHandCursor(true);
 
                 var isTop = true;
 
@@ -276,6 +265,7 @@
                 }
                 query = vars['query'];
                 photoset_id = vars['photoset_id'];
+                if (!photoset_id) {photoset_id = ''};
                 if (query) {
                     query = decodeURI(query);
                     $('title').text(query + ' - Flickr2Tag');
@@ -292,6 +282,9 @@
                 }
 	      });
 		}
+	    $(document).ready(function() {
+            init();
+        });
     </script>
     <!-- END main script -->
   </head>
