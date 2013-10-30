@@ -29,6 +29,9 @@
 			 		log('flash disabled');
 					enableFlash = false;
 			 	}
+				enableFlash = false;
+
+                var enableMarkDown = true;
 
 	      ZeroClipboard.setMoviePath('/static/swf/ZeroClipboard.swf');
 
@@ -123,9 +126,25 @@
 	                    .text(photo.description)));
 
 								if (!enableFlash) {
-									d.append($('<textarea/>')
-										.text("<a href='http://www.flickr.com/photo.gne?id=" + photo.id + "' title='" + photo.title +　"'><img src='" + photo.source + "' alt='" + photo.title + " description='" + photo.description +"'></a>\n"));
+                                    if (!enableMarkDown) {
+                                        d.append($('<textarea/>')
+                                            .text("<a href='http://www.flickr.com/photo.gne?id=" + photo.id + "' title='" + photo.title +　"'><img src='" + photo.source + "' alt='" + photo.title + " description='" + photo.description +"'></a>\n"));
+                                    } else {
+                                        d.append($('<textarea/>')
+	                                        .focus(selectText)
+                                            .text("![" + photo.title + "](" + photo.source + ")"));
+                                    }
 								}
+
+                function selectText(e) {
+                    console.log(e);
+                    var t = e.currentTarget;
+                    //t.focus();
+                    t.oncopy = function() {
+                        t.blur();
+                    }
+                    setTimeout(function() {t.setSelectionRange(0, t.value.length);}, 1);
+                }
 
                 d.appendTo('#photos');
 
