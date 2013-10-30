@@ -46,11 +46,7 @@
 
           var isTop = true;
 
-	      var copy = new ZeroClipboard.Client();
 	      var tags = [];
-	      copy.setHandCursor(true);
-	      copy.glue('copy', 'copy_container');
-	      $('#copy').hide()
 
 	      function hideIntro() {
 	        $('#intro').fadeOut('normal');
@@ -103,6 +99,7 @@
 	            for (i = 0; i < json.length; i++) {
 	              photo = json[i]
 	              var d = $("<div />")
+	                .attr("id", photo.id)
 	                .append($('<a/>')
 	                  .attr('class', 'flickr-link')
 	                  .attr('href', 'http://www.flickr.com/photo.gne?id=' + photo.id)
@@ -111,7 +108,6 @@
 	                    .attr('title', photo.title)
 	                    .attr('src', '/static/img/flickr.png')))
 	                .append($('<img />')
-	                  .attr("id", photo.id)
 	                  .attr('title', photo.title)
 	                  .attr('class', 'flickr-img')
 	                  .attr("alt", photo.url)
@@ -131,26 +127,23 @@
                                             .text("<a href='http://www.flickr.com/photo.gne?id=" + photo.id + "' title='" + photo.title +　"'><img src='" + photo.source + "' alt='" + photo.title + " description='" + photo.description +"'></a>\n"));
                                     } else {
                                         d.append($('<textarea/>')
-	                                        .focus(selectText)
+	                                        .attr("id", "textarea_" + photo.id)
                                             .text("![" + photo.title + "](" + photo.source + ")"));
                                     }
 								}
 
-                function selectText(e) {
-                    var t = e.target;
+                d.appendTo('#photos');
+
+	              $('#' + photo.id).click(function(e) {
+                    var t = e.currentTarget.getElementsByTagName('textarea')[0];
                     t.focus();
+                    t.setSelectionRange(0, t.value.length);
                     t.oncopy = function() {
                         // Workaround for copy timing issue
                         setTimeout(function() {t.blur()}, 1);
                     }
-                    setTimeout(function() {
-                        t.setSelectionRange(0, t.value.length);
-                    }, 50);
-                }
+                    return;
 
-                d.appendTo('#photos');
-
-	              $('#' + photo.id).mouseover(function() {
 	                var img = $('#' + this.id);
 	                var url = img.attr('src');
 	                var title = img.attr('title');
@@ -179,16 +172,6 @@
                         str += "<p>" + desc + "</p>\n";
                     }
 
-                    // set clipboard string
-                    clip.setText(str);
-
-	                if (clip.div) {
-	                  clip.receiveEvent('mouseout', null);
-	                  clip.reposition(this);
-	                } else {
-	                  clip.glue(this);
-	                }
-	                clip.receiveEvent('mouseover', null);
 	              });
 	            }
 	          }
@@ -231,8 +214,6 @@
 
 	      function appendToCopy(text) {
 	        tags.push(text);
-	        copy.setText(tags.join('\n'));
-	        $('#copy').text(tags.length).show('normal')
 	      };
 
 	      $('#goto-top').click(function () {
@@ -268,27 +249,6 @@
 	            return true;
 	          }
 	      })
-
-	      clip.addEventListener('complete', function(client, text) {
-	        // alert("copy!!")
-	        var div = client.domElement.parentNode;
-	        $('<span />')
-	          .attr('class', 'copydone')
-	          .text('Copy Tag to your clipboard!').appendTo($(div));
-	        // div.style.backgroundColor = '#bff';
-	        $(div).fadeTo("normal", 0.3, function(){
-	          $(div).fadeTo("normal", 1.0)
-	          // div.style.backgroundColor = 'white';
-	          $('.copydone').remove();
-	        });
-	        appendToCopy(clip.clipText);
-	      });
-
-	      copy.addEventListener('complete', function(client, text) {
-	        $('#copy').text('0');
-	        $('#copy').hide('normal');
-	        tags.length = 0;
-	      });
 
 	      $(document).ready(function() {
 	        $('#query').formtips({
@@ -359,11 +319,6 @@
 
       <!-- start content -->
       <div id="content">
-        <div id="copy_root">
-          <div id="copy_container" style="position:relative">
-             <div id="copy">0</div>
-          </div>
-        </div>
         <img id="loading" src="/static/img/ajax-loader.gif">
         <span id="search">
           <input id="query" type="text" title="PlayStation3 or 26153219@N00"/>
