@@ -27,13 +27,19 @@ sunzi.mute "apt-get update"
 sunzi.mute "apt-get -y upgrade"
 
 # Install packages
-apt-get -y install git-core ntp curl python python-tornado python-simplejson python-flickrapi nginx supervisor
+apt-get -y install git-core ntp curl python python-tornado python-simplejson nginx supervisor
 
 # Install sysstat, then configure if this is a new install.
 if sunzi.install "sysstat"; then
   sed -i 's/ENABLED="false"/ENABLED="true"/' /etc/default/sysstat
   /etc/init.d/sysstat restart
 fi
+
+# Install python package
+if !sunzi.install "easy_install"; then
+  curl https://bootstrap.pypa.io/ez_setup.py -o - | python
+fi
+easy_install -U flickrapi
 
 # Set RAILS_ENV
 environment=<%= @attributes.environment %>
